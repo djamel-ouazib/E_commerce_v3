@@ -14,6 +14,10 @@ import DetailedProduct from './pages/DetailedProduct'
 import Client from './pages/Client'
 import DetailedProductAdmin from './pages/DetailedProductAdmin'
 import MagazineInscription from './pages/MagazineInscription'
+import Formen from "./pages/Formen";
+import Forwomen from "./pages/Forwomen";
+import Category from "./pages/Category";
+
 
 function App() {
   useEffect(() => {
@@ -34,6 +38,9 @@ function App() {
             <Route path="/shop" element={<Shop />} />
             <Route path="/onSales" element={<OnSales />} />
             <Route path="/product/:id" element={<DetailedProduct />} />
+            <Route path="/formen" element={<Formen />} />
+          <Route path="/forwomen" element={<Forwomen />} />
+          <Route path="/:category" element={<Category />} />
             <Route
               path="/productDetailed/:id"
               element={<DetailedProductAdmin />}
@@ -45,6 +52,8 @@ function App() {
           <Route path="/Magazine" element={<Magazine />} />
           <Route path="/InsertProduct" element={<InsertProduct />} />
           <Route path="/Client" element={<Client />} />
+          
+          <Route path="/:category/:subCategory" element={<Category />} />
           <Route
             path="/MagazineInscription"
             element={<MagazineInscription />}
