@@ -1,16 +1,24 @@
+// 
 import Links from './Links'
 import { cart, logo, user1 } from '../../assets'
 import SearchInput from './SearchInput'
 import CostumeButton from './CostumeButton'
 import { Link, useNavigate } from 'react-router-dom'
 import { GlobalContext } from '../GlobalProvider'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
+
+import { useCart } from "./CartContext";
 export const Navbar = () => {
   const { setUser } = useContext(GlobalContext)
+  const [numberItems,setNumberItems]=useState(null)
+  const { totalItems } = useCart(); // On récupère le nombre total d'articles
   const navigate = useNavigate()
   const loginFunc = () => {
     navigate('/login')
+  }
+  const ShoppingCartFunc = () => {
+    navigate('/ShoppingCart')
   }
   const LogoutFunc = async () => {
     const token = localStorage.getItem('refreshToken')
@@ -24,11 +32,10 @@ export const Navbar = () => {
           },
         }
       )
-      localStorage.removeItem('user')
+      setUser(null)
       localStorage.removeItem('accessToken')
       localStorage.removeItem('refreshToken')
-      setUser(null)
-      navigate('/')
+      localStorage.removeItem('user')
     } catch (error) {
       console.log(
         `we had an error stttttttttatuuuuuuus ${error.response.status}`
@@ -59,7 +66,6 @@ export const Navbar = () => {
             }
           )
           setUser(null)
-          localStorage.removeItem('user')
           localStorage.removeItem('accessToken')
           localStorage.removeItem('refreshToken')
         } catch (error) {
@@ -78,7 +84,7 @@ export const Navbar = () => {
     }
   }, [])
   return (
-    <nav className="grid grid-cols-2 gap-8 h-[50px] mb-9 min-w-[1080px]	fixed mb-[200px] z-1  bg-white ">
+    <nav className="grid grid-cols-2 gap-8 h-[50px] mb-9 min-w-[1080px]	fixed mb-[200px] z-1 bg-white ">
       <div className="grid grid-cols-[1.4fr_3fr] gap-4">
         <div className=" m-auto ml-6   ">
           <Link to="/">
@@ -106,16 +112,8 @@ export const Navbar = () => {
               src={user.imagePath[0]}
               className="rounded-[50%] m-auto h-[25px] cursor-pointer border border-black-5"
               onClick={() => {
-                if (user.role === 'magazine') {
+                if (user.role === 'admin') {
                   navigate('/Magazine')
-                } else {
-                  if (user.role === 'client') {
-                    navigate('/Client')
-                  } else {
-                    if (user.role === 'admin') {
-                      navigate('/Admin')
-                    }
-                  }
                 }
               }}
             />
@@ -126,7 +124,21 @@ export const Navbar = () => {
               className="h-6 m-auto  cursor-pointer"
             />
           )}
-          <img src={cart} alt="cart" className="h-6 m-auto  cursor-pointer" />
+
+          <div className="relative  w-[66px]">
+           <img
+            src={cart}
+            alt="cart"
+            className="h-6 m-auto cursor-pointer"
+            onClick={ShoppingCartFunc}
+          />
+          {totalItems > 0 && (
+            <span className="absolute   bg-red-500 text-white text-xs px-2 rounded-full">
+              {totalItems}
+            </span>
+          )}
+        </div>
+        
         </div>
       </div>
     </nav>
@@ -134,3 +146,4 @@ export const Navbar = () => {
 }
 
 export default Navbar
+

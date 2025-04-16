@@ -17,7 +17,8 @@ import MagazineInscription from './pages/MagazineInscription'
 import Formen from "./pages/Formen";
 import Forwomen from "./pages/Forwomen";
 import Category from "./pages/Category";
-
+import ShoppingCart from "./pages/ShoppingCart";
+import { CartProvider } from "./components/CartContext";
 
 function App() {
   useEffect(() => {
@@ -31,6 +32,7 @@ function App() {
   })
   return (
     <>
+      <CartProvider>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<SharedLayout />}>
@@ -38,6 +40,7 @@ function App() {
             <Route path="/shop" element={<Shop />} />
             <Route path="/onSales" element={<OnSales />} />
             <Route path="/product/:id" element={<DetailedProduct />} />
+            <Route path="/ShoppingCart" element={<ShoppingCart />} />
             <Route path="/formen" element={<Formen />} />
           <Route path="/forwomen" element={<Forwomen />} />
           <Route path="/:category" element={<Category />} />
@@ -61,6 +64,7 @@ function App() {
           <Route path="newMagazine/:id" element={<MagazineInscription />} />
         </Routes>
       </BrowserRouter>
+      </CartProvider>
     </>
   )
 }
